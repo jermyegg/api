@@ -1,3 +1,4 @@
 # Add files to be ignored by git here
 
-./node_modules
+node_modules
+dist
