@@ -1,0 +1,38 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "api-backend for the game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --project tsconfig.json",
+    "build:watch": "npm run build -- --watch",
+    "start": "node dist/index.js",
+    "start:watch": "nodemon dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jermyegg/api.git"
+  },
+  "keywords": [
+    "api",
+    "backend"
+  ],
+  "author": "Eduardo Egger Desfontaine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jermyegg/api/issues"
+  },
+  "homepage": "https://github.com/jermyegg/api#readme",
+  "dependencies": {
+    "hapi": "^18.1.0",
+    "socket.io": "^2.2.0"
+  },
+  "dev-dependencies": {
+    "@types/hapi": "^18.0.2",
+    "@types/socket.io": "^2.1.2",
+    "nodemon": "^1.18.10",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.0"
+  }
+}
