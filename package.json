@@ -26,7 +26,9 @@
   "homepage": "https://github.com/jermyegg/api#readme",
   "dependencies": {
     "hapi": "^18.1.0",
-    "socket.io": "^2.2.0"
+    "nodemon": "^1.19.1",
+    "socket.io": "^2.2.0",
+    "typescript": "^3.5.3"
   },
   "dev-dependencies": {
     "@types/hapi": "^18.0.2",
