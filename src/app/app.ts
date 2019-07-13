@@ -1,10 +1,10 @@
 import * as hapi from 'hapi';
-// import environment from '../environments/environment.dev';
+import * as environment from '../environments/environment.dev';
 
 // create a server with a host and port
 const server: hapi.Server = new hapi.Server({
-  host: 'localhost', // environment.host,
-  port: 8080, //environment.port,
+  host: environment.routing.host,
+  port: environment.routing.port,
 });
 
 // add the route
