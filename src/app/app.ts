@@ -1,5 +1,6 @@
 import * as hapi from 'Hapi';
 import {environment} from '../environments/environment.dev';
+//test comment
 
 export class App {
   public server: hapi.Server;
