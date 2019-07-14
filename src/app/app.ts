@@ -1,43 +1,26 @@
-import * as hapi from 'Hapi';
-import {environment} from '../environments/environment.dev';
-//test comment
+import * as hapi from 'hapi';
+import * as environment from '../environments/environment.dev';
 
-export class App {
-  public server: hapi.Server;
-  public io: any;
+// create a server with a host and port
+const server: hapi.Server = new hapi.Server({
+  host: environment.routing.host,
+  port: environment.routing.port,
+});
 
-  start = async () => {
-    try {
-      await this.server.start();
-      await this.init();
-    } catch(err) {
-      throw new Error(err);
-      process.exit(1);
-    }
+// add the route
+server.route({
+  method: 'GET',
+  path: '/hello',
+  handler: function (request, h) {
+    return 'hello world';
   }
+});
 
-  constructor() {
-    //first we set the environment configurations for the server
-    this.server = new hapi.Server(
-      environment.host,
-      environment.port,
-    );
-
-    //then we initiate the server
-    this.io = require('socket.io')(this.server.listener);
-  }
-
-  public init(): void {
-    console.log('game api listening on port: ', this.server.info.port);
-    this.startSocketIO();
-  }
-
-  public startSocketIO(): void {
-    this.io.on('connection', (socket: any) => {
-      socket.emid('socket_connected', {status: 'connected'});
-      socket.on('sendSocketMessage', (data: any) => {
-        socket.emit('angular_request', {status: 'hello'});
-      })
-    })
-  }
-}
+// start the server
+async function start() {  try {
+    await server.start()
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }  console.log('Server running at:', server.info.uri);}// don't forget to call start
+start();

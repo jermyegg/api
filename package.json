@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --project tsconfig.json",
     "build:watch": "npm run build -- --watch",
-    "start": "node dist/index.js",
-    "start:watch": "nodemon dist/index.js"
+    "start": "node dist/app/app.js",
+    "start:watch": "nodemon dist/app/app.js"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,11 @@
   },
   "homepage": "https://github.com/jermyegg/api#readme",
   "dependencies": {
+    "@types/node": "^12.6.2",
     "hapi": "^18.1.0",
-    "socket.io": "^2.2.0"
+    "nodemon": "^1.19.1",
+    "socket.io": "^2.2.0",
+    "typescript": "^3.5.3"
   },
   "dev-dependencies": {
     "@types/hapi": "^18.0.2",
