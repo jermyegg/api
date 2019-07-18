@@ -49,7 +49,7 @@ export class App {
   }
 
   private _startSocketIo(): void {
-    this._io = socketIo(this._server);
+    this._io = socketIo(this._server.listener);
   }
 }
 
