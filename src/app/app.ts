@@ -19,22 +19,34 @@ export class App {
       host: environment.routing.host,
       port: environment.routing.port,
     });
-    this._createRoutes();
     this._start().then((v: any) => {
-        this._startSocketIo()
+        this._startSocketIo();
+        this._createRoutes();
       }
     );
   }
 
   private _createRoutes(): void {
     // add the route
-    this._server.route({
-      method: 'GET',
-      path: '/hello',
-      handler: function (request, h) {
-        return 'hello world';
-      },
+    // this._server.route({
+    //   method: 'GET',
+    //   path: '/hello',
+    //   handler: function (request, h) {
+    //     return 'hello world';
+    //   },
+    // });
+
+    this._io.on('connect', () => {
+      console.log('connected');
     });
+
+    this._io.on('message', (data) => {
+      console.dir('message received: ', data);
+    })
+
+    this._io.on('disconnect', () => {
+      console.log('disconnected');
+    })
   }
 
   // start the server
