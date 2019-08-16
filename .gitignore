@@ -1,4 +1,10 @@
 # Add files to be ignored by git here
 
+# Node dependencies
 node_modules
+
+# Compiled files
 dist
+
+# Python packages and environment
+./test-suite/env
