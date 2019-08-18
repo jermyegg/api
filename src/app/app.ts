@@ -20,11 +20,13 @@ export class App {
 
   private _initWebsocket(): void {
     this._wss.on('connection', (ws: WebSocket) => {
-      ws.on('message', (message: string) => {
+      ws.on('message', (args?: any) => {
 
+        console.dir('args from connection: ', args);
         //log the received message and send it back to the client
-        console.log('received: %s', message);
-        ws.send(`Hello, you sent -> ${message}`);
+        const id: string = Math.random().toString(36).substring(7);
+        console.log('new game id: ', id);
+        ws.send(`game-id -> ${id}`);
       });
     });
   }
