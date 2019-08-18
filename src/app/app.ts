@@ -1,42 +1,41 @@
-import * as hapi from 'Hapi';
-import {environment} from '../environments/environment.dev';
+import * as express from 'express';
+import * as http from 'http';
+import * as WebSocket from 'ws';
+
+import * as environment from '../environments/environment.dev';
 
 export class App {
-  public server: hapi.Server;
-  public io: any;
+  private _express: any;
+  private _server: any;
+  private _wss: any;
 
-  start = async () => {
-    try {
-      await this.server.start();
-      await this.init();
-    } catch(err) {
-      throw new Error(err);
-      process.exit(1);
-    }
+  constructor () {
+    this._express = express();
+    this._server = http.createServer(this._express);
+    this._wss = new WebSocket.Server({server: this._server});
+
+    this._initWebsocket();
+    this._initServer();
   }
 
-  constructor() {
-    //first we set the environment configurations for the server
-    this.server = new hapi.Server(
-      environment.host,
-      environment.port,
-    );
+  private _initWebsocket(): void {
+    this._wss.on('connection', (ws: WebSocket) => {
+      ws.on('message', (args?: any) => {
 
-    //then we initiate the server
-    this.io = require('socket.io')(this.server.listener);
+        console.dir('args from connection: ', args);
+        //log the received message and send it back to the client
+        const id: string = Math.random().toString(36).substring(7);
+        console.log('new game id: ', id);
+        ws.send(`game-id -> ${id}`);
+      });
+    });
   }
 
-  public init(): void {
-    console.log('game api listening on port: ', this.server.info.port);
-    this.startSocketIO();
-  }
-
-  public startSocketIO(): void {
-    this.io.on('connection', (socket: any) => {
-      socket.emid('socket_connected', {status: 'connected'});
-      socket.on('sendSocketMessage', (data: any) => {
-        socket.emit('angular_request', {status: 'hello'});
-      })
+  private _initServer(): void {
+    this._server.listen(8080, () => {
+      console.log('hello world');
     })
   }
 }
+
+const app: App = new App();
