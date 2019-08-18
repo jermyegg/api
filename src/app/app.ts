@@ -1,26 +1,41 @@
-import * as hapi from 'hapi';
+import * as express from 'express';
+import * as http from 'http';
+import * as WebSocket from 'ws';
+
 import * as environment from '../environments/environment.dev';
 
-// create a server with a host and port
-const server: hapi.Server = new hapi.Server({
-  host: environment.routing.host,
-  port: environment.routing.port,
-});
+export class App {
+  private _express: any;
+  private _server: any;
+  private _wss: any;
 
-// add the route
-server.route({
-  method: 'GET',
-  path: '/hello',
-  handler: function (request, h) {
-    return 'hello world';
+  constructor () {
+    this._express = express();
+    this._server = http.createServer(this._express);
+    this._wss = new WebSocket.Server({server: this._server});
+
+    this._initWebsocket();
+    this._initServer();
   }
-});
 
-// start the server
-async function start() {  try {
-    await server.start()
-  } catch (err) {
-    console.log(err);
-    process.exit(1);
-  }  console.log('Server running at:', server.info.uri);}// don't forget to call start
-start();
+  private _initWebsocket(): void {
+    this._wss.on('connection', (ws: WebSocket) => {
+      ws.on('message', (args?: any) => {
+
+        console.dir('args from connection: ', args);
+        //log the received message and send it back to the client
+        const id: string = Math.random().toString(36).substring(7);
+        console.log('new game id: ', id);
+        ws.send(`game-id -> ${id}`);
+      });
+    });
+  }
+
+  private _initServer(): void {
+    this._server.listen(8080, () => {
+      console.log('hello world');
+    })
+  }
+}
+
+const app: App = new App();
