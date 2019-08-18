@@ -1,67 +1,38 @@
-/* Dependencies */
-import * as hapi from 'hapi';
-import * as socketIo from 'socket.io';
+import * as express from 'express';
+import * as http from 'http';
+import * as WebSocket from 'ws';
 
-/* Local */
 import * as environment from '../environments/environment.dev';
 
 export class App {
-
-  private _server: hapi.Server;
-  private _io: any;
+  private _express: any;
+  private _server: any;
+  private _wss: any;
 
   constructor () {
-    this._init();
+    this._express = express();
+    this._server = http.createServer(this._express);
+    this._wss = new WebSocket.Server({server: this._server});
+
+    this._initWebsocket();
+    this._initServer();
   }
 
-  private _init(): void {
-    this._server = new hapi.Server({
-      host: environment.routing.host,
-      port: environment.routing.port,
+  private _initWebsocket(): void {
+    this._wss.on('connection', (ws: WebSocket) => {
+      ws.on('message', (message: string) => {
+
+        //log the received message and send it back to the client
+        console.log('received: %s', message);
+        ws.send(`Hello, you sent -> ${message}`);
+      });
     });
-    this._start().then((v: any) => {
-        this._startSocketIo();
-        this._createRoutes();
-      }
-    );
   }
 
-  private _createRoutes(): void {
-    // add the route
-    // this._server.route({
-    //   method: 'GET',
-    //   path: '/hello',
-    //   handler: function (request, h) {
-    //     return 'hello world';
-    //   },
-    // });
-
-    this._io.on('connect', () => {
-      console.log('connected');
-    });
-
-    this._io.on('message', (data) => {
-      console.dir('message received: ', data);
+  private _initServer(): void {
+    this._server.listen(8080, () => {
+      console.log('hello world');
     })
-
-    this._io.on('disconnect', () => {
-      console.log('disconnected');
-    })
-  }
-
-  // start the server
-  private async _start(): Promise<any> {
-    try {
-      await this._server.start()
-    } catch (err) {
-      console.log(err);
-      process.exit(1);
-    }
-    console.log('Server running at:', this._server.info.uri);
-  }
-
-  private _startSocketIo(): void {
-    this._io = socketIo(this._server.listener);
   }
 }
 

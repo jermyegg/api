@@ -26,7 +26,8 @@ $ sudo pip install PACKAGE_NAME
 
 You will require:
 
-* websockets
+* pathlib
+* websocket_client
 
 ## Usage
 
