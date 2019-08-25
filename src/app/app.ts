@@ -30,8 +30,8 @@ export class App {
         //log the received message and send it back to the client
         const response = this._handler.handle(request);
 
-        console.log('new game id: ', response);
-        ws.send(`game-id -> ${response}`);
+        console.log('sending back: ', response);
+        ws.send(response);
       });
     });
   }
