@@ -17,7 +17,7 @@ game = {
                     'title': '42',
                 },
             ],
-            'answer': 'none',
+            'answer': '42',
         },
     ],
 }
@@ -45,9 +45,7 @@ def test_connection():
 
 def test_handler():
     print '\tshould return a valid json object'
-    j = json.dumps(game)
-    print j
-    ws.send(j)
+    ws.send(json.dumps(game))
     try:
         json.loads(ws.recv())
         print 'handler parse successful'
