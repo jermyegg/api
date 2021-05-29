@@ -29,7 +29,7 @@
     "express": "^4.17.1",
     "nodemon": "^1.19.1",
     "typescript": "^3.5.3",
-    "ws": "^7.1.2"
+    "ws": "^7.4.6"
   },
   "dev-dependencies": {
     "@types/hapi": "^18.0.2",
