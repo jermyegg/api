@@ -26,7 +26,7 @@
   "homepage": "https://github.com/jermyegg/api#readme",
   "dependencies": {
     "@types/node": "^12.6.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "nodemon": "^1.19.1",
     "typescript": "^3.5.3",
     "ws": "^7.1.2"
